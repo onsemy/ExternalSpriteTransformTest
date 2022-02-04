@@ -80,17 +80,8 @@ public class ExternalSpriteTransformTest : MonoBehaviour
     private GameObject _GenerateSprite(Texture2D texture, float skewValue)
     {
         var obj = new GameObject();
-        var render = obj.AddComponent<SpriteRenderer>();
-
-        var shader = Shader.Find("Custom/SpriteSkewShader");
-        var material = new Material(shader);
-        material.SetTexture("_MainTex", texture);
-        material.SetFloat("_VerticalSkew", skewValue);
-
-        var sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.one * 0.5f, 256f);
-        sprite.name = texture.name;
-        render.sprite = sprite;
-        render.material = material;
+        var render = obj.AddComponent<SpriteSkew>();
+        render.SetSpriteSkew(texture, skewValue);
 
         return obj;
     }
