@@ -1,3 +1,5 @@
+// Upgrade NOTE: replaced '_Object2World' with 'unity_ObjectToWorld'
+
 // Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
 
 // Adapted from the built-in Sprites-Default.shader
@@ -12,7 +14,7 @@ Shader "Custom/SpriteSkewShader"
 		_Color ("Tint", Color) = (1,1,1,1)
 		[MaterialToggle] PixelSnap ("Pixel snap", Float) = 0
 		
-		_HorizontalSkew ("Horizontal Skew", Float) = 0
+		// _HorizontalSkew ("Horizontal Skew", Float) = 0
 		_VerticalSkew ("Vertical Skew", Float) = 0
 	}
 
@@ -38,7 +40,7 @@ Shader "Custom/SpriteSkewShader"
 		CGPROGRAM
 			#pragma vertex vert
 			#pragma fragment frag
-			#pragma multi_compile DUMMY PIXELSNAP_ON
+			// #pragma multi_compile DUMMY PIXELSNAP_ON
 			#include "UnityCG.cginc"
 			
 			struct appdata_t
@@ -57,7 +59,7 @@ Shader "Custom/SpriteSkewShader"
 			
 			sampler2D _MainTex;
 			fixed4 _Color;
-			float _HorizontalSkew;
+			// float _HorizontalSkew;
 			float _VerticalSkew;
 
 			v2f vert(appdata_t IN)
@@ -67,10 +69,10 @@ Shader "Custom/SpriteSkewShader"
 				OUT.color = IN.color * _Color;
 				
 				// Create a skew transformation matrix
-				float h = _HorizontalSkew;
+				// float h = _HorizontalSkew;
 				float v = _VerticalSkew;
 				float4x4 transformMatrix = float4x4(
-					1,h,0,0,
+					1,0,0,0,
 					v,1,0,0,
 					0,0,1,0,
 					0,0,0,1);
@@ -78,9 +80,9 @@ Shader "Custom/SpriteSkewShader"
 				float4 skewedVertex = mul(transformMatrix, IN.vertex);
 				OUT.vertex = UnityObjectToClipPos(skewedVertex);
 				
-				#ifdef PIXELSNAP_ON
-				OUT.vertex = UnityPixelSnap (OUT.vertex);
-				#endif
+				// #ifdef PIXELSNAP_ON
+				// OUT.vertex = UnityPixelSnap (OUT.vertex);
+				// #endif
 
 				return OUT;
 			}
